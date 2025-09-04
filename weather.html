@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Project 1 — Weather Data Exploration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-900">
+  <header class="max-w-3xl mx-auto p-6">
+    <a href="index.html" class="text-sm text-blue-600 underline">← Back</a>
+    <h1 class="text-3xl font-bold mt-2">Project 1: Weather Data Exploration</h1>
+    <p class="mt-2 text-gray-700">
+      Dataset: <a class="underline text-blue-600" href="https://www.kaggle.com/datasets/prasad22/weather-data" target="_blank" rel="noopener">prasad22 — Weather Data</a> (synthetic).
+    </p>
+  </header>
+
+  <main class="max-w-3xl mx-auto p-6 space-y-8">
+    <!-- Introduce the problem -->
+    <section>
+      <h2 class="text-xl font-semibold">Problem</h2>
+      <p class="mt-1">
+        Explore city-level weather patterns: (1) daily average temperature by city, (2) monthly total precipitation by city,
+        and (3) temperature–humidity relationship.
+      </p>
+    </section>
+
+    <!-- Introduce the data -->
+    <section>
+      <h2 class="text-xl font-semibold">Data</h2>
+      <p class="mt-1">
+        CSV with columns: <code>Location</code>, <code>Date_Time</code>, <code>Temperature_C</code>,
+        <code>Humidity_pct</code>, <code>Precipitation_mm</code>, <code>Wind_Speed_kmh</code>.
+        Data are synthetic and designed for practice (not real observations).
+      </p>
+    </section>
+
+    <!-- Pre-processing -->
+    <section>
+      <h2 class="text-xl font-semibold">Pre-processing</h2>
+      <ul class="list-disc pl-6 mt-2 space-y-1">
+        <li>Parsed <code>Date_Time</code> to datetime; added daily and monthly groupings.</li>
+        <li>Dropped rows missing critical fields (datetime or location).</li>
+        <li>Removed duplicate (Location, Date_Time) pairs.</li>
+        <li>Clipped invalid values (no negative precipitation; humidity within 0–100).</li>
+      </ul>
+    </section>
+
+    <!-- Visuals -->
+    <section>
+      <h2 class="text-xl font-semibold">Visualizations</h2>
+      <div class="space-y-6 mt-2">
+        <figure>
+          <img src="images/weather_daily_temp.png" alt="Daily average temperature by city" class="w-full rounded border" />
+          <figcaption class="text-sm text-gray-600 mt-1">Daily average temperature by city (seasonal cycles visible).</figcaption>
+        </figure>
+        <figure>
+          <img src="images/weather_monthly_precip.png" alt="Monthly total precipitation by city" class="w-full rounded border" />
+          <figcaption class="text-sm text-gray-600 mt-1">Monthly total precipitation by city (spiky, location-dependent).</figcaption>
+        </figure>
+        <figure>
+          <img src="images/weather_hexbin.png" alt="Hexbin density of Temperature vs Humidity" class="w-full rounded border" />
+          <figcaption class="text-sm text-gray-600 mt-1">Hexbin: Temperature (°C) vs Humidity (%), avoids scatter overplotting.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Storytelling -->
+    <section>
+      <h2 class="text-xl font-semibold">What I Learned</h2>
+      <ul class="list-disc pl-6 mt-2 space-y-1">
+        <li>Seasonality is clear across cities, with different peak ranges.</li>
+        <li>Precipitation is uneven month-to-month and city-to-city.</li>
+        <li>Temperature and humidity show an inverse pattern; hexbin reveals dense clusters cleanly.</li>
+      </ul>
+    </section>
+
+    <!-- Impact -->
+    <section>
+      <h2 class="text-xl font-semibold">Impact & Limits</h2>
+      <p class="mt-1">
+        This is practice for time-series/EDA and visualization. Because the data are synthetic, don’t draw real-world climate conclusions.
+        Missing features (pressure, cloud cover) limit deeper analysis.
+      </p>
+    </section>
+
+    <!-- References -->
+    <section>
+      <h2 class="text-xl font-semibold">References</h2>
+      <ul class="list-disc pl-6 mt-2">
+        <li>Kaggle dataset: <a class="underline text-blue-600" href="https://www.kaggle.com/datasets/prasad22/weather-data" target="_blank" rel="noopener">prasad22 / Weather Data</a></li>
+        <li>Libraries: pandas, matplotlib</li>
+      </ul>
+    </section>
+
+    <!-- Code link -->
+    <section>
+      <h2 class="text-xl font-semibold">Code</h2>
+      <p class="mt-1">
+        <a class="underline text-blue-600" href="files/WeatherProject_Notebook.ipynb" download>Download the full Jupyter Notebook</a>.
+      </p>
+    </section>
+  </main>
+
+  <footer class="max-w-3xl mx-auto p-6 text-sm text-gray-500">
+    © <span id="y"></span> Calvin Zheng
+  </footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
