@@ -16,7 +16,7 @@
   </header>
 
   <main class="max-w-3xl mx-auto p-6 space-y-8">
-    <!-- Introduce the problem -->
+    <!-- Introducing the problem -->
     <section>
       <h2 class="text-xl font-semibold">Problem</h2>
       <p class="mt-1">
@@ -25,7 +25,7 @@
       </p>
     </section>
 
-    <!-- Introduce the data -->
+    <!-- Introducing the data -->
     <section>
       <h2 class="text-xl font-semibold">Data</h2>
       <p class="mt-1">
@@ -40,9 +40,8 @@
       <h2 class="text-xl font-semibold">Pre-processing</h2>
       <ul class="list-disc pl-6 mt-2 space-y-1">
         <li>Parsed <code>Date_Time</code> to datetime; added daily and monthly groupings.</li>
-        <li>Dropped rows missing critical fields (datetime or location).</li>
-        <li>Removed duplicate (Location, Date_Time) pairs.</li>
-        <li>Clipped invalid values (no negative precipitation; humidity within 0–100).</li>
+        <li>Dropped rows missing critical fields (datetime or location but there werent any).</li>
+        <li>Checked for duplicate (Location, Date_Time) pairs.</li>
       </ul>
     </section>
 
@@ -79,8 +78,8 @@
     <section>
       <h2 class="text-xl font-semibold">Impact & Limits</h2>
       <p class="mt-1">
-        This is practice for time-series/EDA and visualization. Because the data are synthetic, don’t draw real-world climate conclusions.
-        Missing features (pressure, cloud cover) limit deeper analysis.
+        This is practice for time-series and visualizations in general. Because the data is synthetic, I don’t plan to draw real-world climate conclusions.
+        Missing features (pressure, cloud cover) limit deeper analysis as well as lacking a lot of data (time-wise).
       </p>
     </section>
 
