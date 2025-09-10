@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Visual Analytics — Amazon Product Engagement | Calvin Zheng</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Visual analytics of Amazon products: long-tail reviews, category dominance, and the role of discounts." />
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <!-- Header -->
+  <header class="max-w-4xl mx-auto p-6 text-center">
+    <h1 class="text-3xl md:text-4xl font-bold mb-2">📦 Visual Analytics — Amazon Product Engagement</h1>
+    <p class="text-gray-700">Exploring reviews, ratings, categories, and discounts across 42k+ products</p>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-6 space-y-10">
+    <!-- Intro -->
+    <section class="p-6 bg-white rounded-2xl shadow">
+      <h2 class="text-2xl font-semibold mb-3">Overview</h2>
+      <p class="text-gray-700">
+        Same playbook as my weather project: start with a clear question, use clean visuals, and keep the insights actionable.
+        Here the question is: <span class="font-semibold">what drives customer engagement on Amazon?</span>
+        I analyze five signals — reviews, ratings, price, discounts, and category — to show how a few products dominate while most barely register.
+      </p>
+      <ul class="mt-4 list-disc list-inside text-gray-700">
+        <li><span class="font-semibold">Dataset:</span> Amazon Products Sales (42k+ items, 2025)</li>
+        <li><span class="font-semibold">Columns used:</span> discounted_price, original_price, discount_percentage, product_rating, total_reviews, product_category</li>
+      </ul>
+    </section>
+
+    <!-- Chart 1: Long tail -->
+    <section class="p-6 bg-white rounded-2xl shadow">
+      <h2 class="text-2xl font-semibold mb-4">The Long Tail of Reviews</h2>
+      <figure class="space-y-3">
+        <img src="figs/amazon_fig_reviews.png" alt="Histogram of total reviews on log scale showing a long-tail distribution" class="w-full rounded-xl border" />
+        <figcaption class="text-sm text-gray-600">
+          Most products have very few reviews; a small number dominate. Log scale makes the pattern readable.
+        </figcaption>
+      </figure>
+      <p class="mt-4 text-gray-700">
+        Popularity is highly unequal. This sets the baseline: review counts are the visibility currency, and they’re concentrated.
+      </p>
+    </section>
+
+    <!-- Chart 2: Ratings distribution -->
+    <section class="p-6 bg-white rounded-2xl shadow">
+      <h2 class="text-2xl font-semibold mb-4">Ratings Are Compressed</h2>
+      <figure class="space-y-3">
+        <img src="figs/amazon_fig_ratings.png" alt="Histogram of product ratings clustering around 4–5 stars" class="w-full rounded-xl border" />
+        <figcaption class="text-sm text-gray-600">
+          Ratings cluster around 4–5 stars. They’re a baseline requirement, not a differentiator.
+        </figcaption>
+      </figure>
+      <p class="mt-4 text-gray-700">
+        Since ratings barely vary, <span class="font-semibold">review volume</span> (engagement) is what separates products.
+      </p>
+    </section>
+
+    <!-- Chart 3: Categories -->
+    <section class="p-6 bg-white rounded-2xl shadow">
+      <h2 class="text-2xl font-semibold mb-4">Categories That Dominate</h2>
+      <figure class="space-y-3">
+        <img src="figs/amazon_fig_categories.png" alt="Bar chart of average reviews by top categories with rating overlays" class="w-full rounded-xl border" />
+        <figcaption class="text-sm text-gray-600">
+          Phones and Power &amp; Batteries lead on average reviews; ratings across categories are similar.
+        </figcaption>
+      </figure>
+      <p class="mt-4 text-gray-700">
+        Category matters. Accessories and high-usage items attract more attention; niche categories lag even with similar ratings.
+      </p>
+    </section>
+
+    <!-- Chart 4: Discounts vs reviews -->
+    <section class="p-6 bg-white rounded-2xl shadow">
+      <h2 class="text-2xl font-semibold mb-4">Discounts Boost Engagement</h2>
+      <figure class="space-y-3">
+        <img src="figs/amazon_fig_discount_reviews.png" alt="Bar chart of average reviews by discount bands showing higher engagement at moderate discounts" class="w-full rounded-xl border" />
+        <figcaption class="text-sm text-gray-600">
+          Moderate discounts (20–50%) correlate with higher average reviews; extreme discounts (50%+) don’t outperform.
+        </figcaption>
+      </figure>
+      <p class="mt-4 text-gray-700">
+        Promotions nudge visibility. Heavy discounts aren’t a silver bullet; they often signal clearance or weak products.
+      </p>
+    </section>
+
+    <!-- Chart 5: Discounts vs ratings -->
+    <section class="p-6 bg-white rounded-2xl shadow">
+      <h2 class="text-2xl font-semibold mb-4">Discounts Don’t Change Satisfaction</h2>
+      <figure class="space-y-3">
+        <img src="figs/amazon_fig_discount_ratings.png" alt="Bar chart of average rating by discount bands showing flat ratings across bands" class="w-full rounded-xl border" />
+        <figcaption class="text-sm text-gray-600">
+          Ratings stay flat across discount bands. Discounts move units, not love.
+        </figcaption>
+      </figure>
+    </section>
+
+    <!-- Key takeaways -->
+    <section class="p-6 bg-white rounded-2xl shadow">
+      <h2 class="text-2xl font-semibold mb-3">Key Takeaways</h2>
+      <ul class="list-disc list-inside text-gray-700 space-y-1">
+        <li>Engagement is unequal: a few products dominate the reviews.</li>
+        <li>Ratings are compressed (4–5★); reviews drive visibility.</li>
+        <li>Category is a lever — accessories/high-usage items win attention.</li>
+        <li>Discounts spike engagement but don’t improve satisfaction.</li>
+      </ul>
+    </section>
+
+    <!-- Links -->
+    <section class="p-6 bg-white rounded-2xl shadow">
+      <h2 class="text-2xl font-semibold mb-3">Files</h2>
+      <ul class="list-disc list-inside text-gray-700">
+        <li><a href="notebooks/amazon_visual_analytics.ipynb" class="text-blue-600 hover:underline">Notebook (code + plots)</a></li>
+        <li><a href="weather.html" class="text-blue-600 hover:underline">Related: Weather Data Exploration</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-4xl mx-auto p-6 text-center text-sm text-gray-500">
+    <a href="index.html" class="text-blue-600 hover:underline">← Back to Home</a>
+    <span class="mx-2">|</span>
+    © <span id="y"></span> Calvin Zheng
+  </footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
