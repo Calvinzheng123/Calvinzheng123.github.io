@@ -5,6 +5,7 @@
   <title>Project 1 — Weather Data Exploration</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Synthetic weather data exploration with problem framing, preprocessing rationale, and actionable takeaways.">
 </head>
 <body class="bg-white text-gray-900">
   <header class="max-w-3xl mx-auto p-6">
@@ -13,73 +14,120 @@
     <p class="mt-2 text-gray-700">
       Dataset: <a class="underline text-blue-600" href="https://www.kaggle.com/datasets/prasad22/weather-data" target="_blank" rel="noopener">prasad22 — Weather Data</a> (synthetic).
     </p>
+    <p id="viz-warning" class="hidden mt-2 text-sm text-red-600">⚠️ Charts failed to load. Check <code>/images/</code> paths or rebuild the figures.</p>
   </header>
 
-  <main class="max-w-3xl mx-auto p-6 space-y-8">
-    <!-- Introducing the problem -->
+  <main class="max-w-3xl mx-auto p-6 space-y-10">
+    <!-- Problem (clear + “who cares”) -->
     <section>
       <h2 class="text-xl font-semibold">Problem</h2>
       <p class="mt-1">
-        Explore city-level weather patterns: (1) daily average temperature by city, (2) monthly total precipitation by city,
-        and (3) temperature–humidity relationship.
+        You’re choosing among a few U.S. cities for outdoor plans and want <em>comfortable temperatures</em> and <em>lower rain risk</em>.
+        Using synthetic data, I’ll (1) show city temperature patterns over time, (2) summarize monthly rainfall by city,
+        and (3) check how temperature aligns with humidity (comfort proxy). Goal: identify <strong>months to target vs. avoid</strong>.
+      </p>
+      <p class="mt-2 text-gray-700">
+        Stakeholders who care: <em>travelers</em> picking dates, <em>event planners</em> trying to dodge rain, and anyone scheduling outdoor activities.
       </p>
     </section>
 
-    <!-- Introducing the data -->
+    <!-- Data -->
     <section>
       <h2 class="text-xl font-semibold">Data</h2>
       <p class="mt-1">
         CSV with columns: <code>Location</code>, <code>Date_Time</code>, <code>Temperature_C</code>,
         <code>Humidity_pct</code>, <code>Precipitation_mm</code>, <code>Wind_Speed_kmh</code>.
-        Data are synthetic and designed for practice (not real observations).
+        This is <strong>synthetic</strong> training data—good for methods practice, not for real-world climate decisions.
       </p>
     </section>
 
-    <!-- Pre-processing -->
+    <!-- Methods / Pre-processing (with explicit WHY) -->
     <section>
-      <h2 class="text-xl font-semibold">Pre-processing</h2>
-      <ul class="list-disc pl-6 mt-2 space-y-1">
-        <li>Parsed <code>Date_Time</code> to datetime; added daily and monthly groupings.</li>
-        <li>Dropped rows missing critical fields (datetime or location but there werent any).</li>
-        <li>Checked for duplicate (Location, Date_Time) pairs.</li>
+      <h2 class="text-xl font-semibold">Methods</h2>
+      <ul class="list-disc pl-6 mt-2 space-y-2">
+        <li>
+          Parsed <code>Date_Time</code> to datetime; derived daily and monthly groupings.
+          <span class="text-gray-600">Why: daily captures seasonality detail; monthly aligns with planning windows.</span>
+        </li>
+        <li>
+          Validated shape/columns; dropped rows missing <code>Date_Time</code> or <code>Location</code> (none critical).
+          <span class="text-gray-600">Why: ensures clean timeline and city identifiers before aggregation.</span>
+        </li>
+        <li>
+          Checked duplicates on (<code>Location</code>, <code>Date_Time</code>); none affecting aggregates.
+          <span class="text-gray-600">Why: prevents double-counting weather observations.</span>
+        </li>
+        <li>
+          Aggregations:
+          <ul class="list-disc pl-6 mt-1 space-y-1">
+            <li><strong>Daily temperature:</strong> mean °C by city/date.
+              <span class="text-gray-600">Why: shows clear seasonal cycles at the right granularity.</span>
+            </li>
+            <li><strong>Monthly precipitation:</strong> total mm by city/month.
+              <span class="text-gray-600">Why: monthly totals matter most for travel/events planning.</span>
+            </li>
+            <li><strong>Temp–humidity hexbin:</strong> density plot.
+              <span class="text-gray-600">Why: avoids scatter overplotting; highlights common “feel-like” zones.</span>
+            </li>
+          </ul>
+        </li>
       </ul>
     </section>
 
-    <!-- Visuals -->
+    <!-- Visuals (original three) -->
     <section>
       <h2 class="text-xl font-semibold">Visualizations</h2>
       <div class="space-y-6 mt-2">
         <figure>
-          <img src="images/weather_daily_temp.png" alt="Daily average temperature by city" class="w-full rounded border" />
-          <figcaption class="text-sm text-gray-600 mt-1">Daily average temperature by city (seasonal cycles visible).</figcaption>
+          <img data-critical src="images/weather_daily_temp.png" alt="Daily average temperature by city" class="w-full rounded border" />
+          <figcaption class="text-sm text-gray-600 mt-1">
+            Daily average temperature by city. Clear seasonal cycles; day-to-day noise is fine for seeing peaks/valleys and transitions.
+          </figcaption>
         </figure>
         <figure>
-          <img src="images/weather_monthly_precip.png" alt="Monthly total precipitation by city" class="w-full rounded border" />
-          <figcaption class="text-sm text-gray-600 mt-1">Monthly total precipitation by city (spiky, location-dependent).</figcaption>
+          <img data-critical src="images/weather_monthly_precip.png" alt="Monthly total precipitation by city" class="w-full rounded border" />
+          <figcaption class="text-sm text-gray-600 mt-1">
+            Monthly total precipitation by city. Quick scan for wetter windows and variability across locations.
+          </figcaption>
         </figure>
         <figure>
           <img src="images/weather_hexbin.png" alt="Hexbin density of Temperature vs Humidity" class="w-full rounded border" />
-          <figcaption class="text-sm text-gray-600 mt-1">Hexbin: Temperature (°C) vs Humidity (%), avoids scatter overplotting.</figcaption>
+          <figcaption class="text-sm text-gray-600 mt-1">
+            Temperature (°C) vs Humidity (%) hexbin. Dense clusters ≈ conditions you’re most likely to experience.
+          </figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- Storytelling -->
+    <!-- Findings (deeper + actionable) -->
     <section>
-      <h2 class="text-xl font-semibold">What I Learned</h2>
-      <ul class="list-disc pl-6 mt-2 space-y-1">
-        <li>Seasonality is clear across cities, with different peak ranges.</li>
-        <li>Precipitation is uneven month-to-month and city-to-city.</li>
-        <li>Temperature and humidity show an inverse pattern; hexbin reveals dense clusters cleanly.</li>
+      <h2 class="text-xl font-semibold">Findings</h2>
+      <ul class="list-disc pl-6 mt-2 space-y-2">
+        <li><strong>Seasonality:</strong> Cities show predictable warm/cool phases. Plan outdoors just <em>before</em> peak heat; shoulder periods are most comfortable.</li>
+        <li><strong>Rain risk:</strong> Monthly totals flag wetter windows. If you’re date-constrained, pick the city with both lower median and tighter spread in your target month.</li>
+        <li><strong>Comfort proxy:</strong> Hexbin clusters around moderate temp + moderate humidity indicate the best “feel-like” zone for activities.</li>
+      </ul>
+      <p class="mt-2 text-gray-700">
+        If this were real data: shortlist months with stable temps (gentler slope in daily lines), avoid city–month pairs with the fattest precip bars, and sanity-check that your pick sits near the hexbin’s moderate cluster.
+      </p>
+    </section>
+
+    <!-- Storytelling / So what -->
+    <section>
+      <h2 class="text-xl font-semibold">So What?</h2>
+      <ul class="list-disc pl-6 mt-2 space-y-2">
+        <li><em>Vacationers:</em> Target shoulder months for comfort; keep an indoor backup if monthly precip variance is high.</li>
+        <li><em>Event planners:</em> Prefer cities with low rain totals and low variance in your window; book tents/coverage otherwise.</li>
+        <li><em>Outdoor teams/leagues:</em> Schedule where the hexbin center aligns with target practice conditions.</li>
       </ul>
     </section>
 
-    <!-- Impact -->
+    <!-- Impact / Limits -->
     <section>
       <h2 class="text-xl font-semibold">Impact & Limits</h2>
       <p class="mt-1">
-        This is practice for time-series and visualizations in general. Because the data is synthetic, I don’t plan to draw real-world climate conclusions.
-        Missing features (pressure, cloud cover) limit deeper analysis as well as lacking a lot of data (time-wise).
+        This is a methods demo on synthetic data—no real-world inference. Misusing it for actual planning could mislead decisions.
+        Missing features (pressure, cloud cover, heat index) limit comfort modeling; short time span may hide rare extremes.
       </p>
     </section>
 
@@ -103,12 +151,9 @@
         </a>
       </p>
       <div class="space-x-3 mt-4">
-        <!-- Open in Colab -->
         <a class="inline-block px-3 py-2 rounded bg-black text-white"
            href="https://colab.research.google.com/github/Calvinzheng123/Calvinzheng123.github.io/blob/main/notebooks/WeatherProject_Notebook.ipynb"
            target="_blank" rel="noopener">Open in Colab</a>
-
-        <!-- View on nbviewer -->
         <a class="inline-block px-3 py-2 rounded bg-gray-200"
            href="https://nbviewer.org/github/Calvinzheng123/Calvinzheng123.github.io/blob/main/notebooks/WeatherProject_Notebook.ipynb"
            target="_blank" rel="noopener">View on nbviewer</a>
@@ -119,6 +164,19 @@
   <footer class="max-w-3xl mx-auto p-6 text-sm text-gray-500">
     © <span id="y"></span> Calvin Zheng
   </footer>
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+
+  <script>
+    // Year stamp
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Warn if critical images fail
+    const warn = document.getElementById('viz-warning');
+    document.querySelectorAll('img[data-critical]').forEach(img => {
+      img.addEventListener('error', () => {
+        img.classList.add('hidden');
+        warn.classList.remove('hidden');
+      }, { once: true });
+    });
+  </script>
 </body>
 </html>
