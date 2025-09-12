@@ -2,34 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Calvin Zheng — Projects</title>
+  <title>Calvin Zheng — Data Science Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
   <header class="max-w-3xl mx-auto p-6 text-center">
-    <h1 class="text-4xl font-bold">Calvin Zheng — Portfolio</h1>
-    <p class="mt-2 text-gray-600">Data Science Projects</p>
+    <h1 class="text-4xl font-bold">Calvin Zheng</h1>
+    <p class="mt-2 text-gray-600">Data Science Portfolio</p>
   </header>
 
   <main class="max-w-3xl mx-auto p-6 space-y-6">
-    <section>
-      <h2 class="text-2xl font-semibold mb-4">Projects</h2>
-      <ul class="space-y-4">
-        <li>
-          <a href="weather.html" class="block p-4 rounded-lg border hover:bg-gray-100">
-            <h3 class="text-xl font-bold">Project 1: Weather Data Exploration</h3>
-            <p class="text-gray-700">Exploring temperature, precipitation, and humidity patterns with synthetic weather data.</p>
-          </a>
-        </li>
-        <li>
-          <a href="amazon.html" class="block p-4 rounded-lg border hover:bg-gray-100">
-            <h3 class="text-xl font-bold">Project 2: Amazon Sales Data</h3>
-            <p class="text-gray-700">Analyzing product sales and trends from an Amazon dataset.</p>
-          </a>
-        </li>
-      </ul>
-    </section>
+    <!-- Project 1 -->
+    <div class="bg-white p-6 rounded-lg shadow border">
+      <h2 class="text-xl font-bold">Project 1: Weather Data Exploration</h2>
+      <p class="mt-2 text-gray-700">
+        Explored daily average temperatures, monthly precipitation totals, and the relationship between
+        temperature and humidity using hexbin density plots.
+      </p>
+      <a href="weather.html"
+         class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded font-medium hover:bg-blue-700">
+        View Project →
+      </a>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="bg-white p-6 rounded-lg shadow border">
+      <h2 class="text-xl font-bold">Project 2: Visual Analytics — Amazon Product Engagement</h2>
+      <p class="mt-2 text-gray-700">
+        Using 42k+ Amazon products, I explored what drives engagement, from the long-tail distribution of
+        reviews, to category dominance, to the role of discounts. This project highlights how visual storytelling
+        can uncover marketplace patterns.
+      </p>
+      <a href="amazon.html"
+         class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded font-medium hover:bg-blue-700">
+        View Project →
+      </a>
+    </div>
   </main>
 
   <footer class="max-w-3xl mx-auto p-6 text-sm text-gray-500 text-center">
