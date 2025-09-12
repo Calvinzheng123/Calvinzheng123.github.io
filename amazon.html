@@ -11,9 +11,9 @@
     <a href="index.html" class="text-sm text-blue-600 underline">← Back</a>
     <h1 class="text-3xl font-bold mt-2">Project 2: Visual Analytics — Amazon Product Engagement</h1>
     <p class="mt-2 text-gray-700">
-      Dataset: <a class="underline text-blue-600" 
-                  href="https://www.kaggle.com/datasets/ikramshah512/amazon-products-sales-dataset-42k-items-2025" 
-                  target="_blank" rel="noopener">ikramshah512 — Amazon Products Sales Dataset (42k items, 2025)</a>.
+      Dataset: <a class="underline text-blue-600"
+                  href="https://www.kaggle.com/datasets/ikramshah512/amazon-products-sales-dataset-42k-items-2025"
+                  target="_blank" rel="noopener">Amazon Products Sales (≈42k items, 2025)</a>
     </p>
   </header>
 
@@ -22,11 +22,9 @@
     <section>
       <h2 class="text-xl font-semibold">Problem</h2>
       <p class="mt-1">
-        What drives engagement on Amazon? Specifically, I explored: 
-        (1) how reviews are distributed across products, 
-        (2) whether ratings actually distinguish success, 
-        (3) which categories dominate, and 
-        (4) how discounts affect reviews and satisfaction.
+        What actually drives product engagement on Amazon? I focused on four things:
+        (1) how reviews are distributed, (2) whether ratings separate winners from the pack,
+        (3) which categories punch above their weight, and (4) how discounting relates to reviews and ratings.
       </p>
     </section>
 
@@ -34,22 +32,19 @@
     <section>
       <h2 class="text-xl font-semibold">Data</h2>
       <p class="mt-1">
-        CSV with columns: <code>discounted_price</code>, <code>original_price</code>, 
-        <code>discount_percentage</code>, <code>product_rating</code>, 
-        <code>total_reviews</code>, <code>product_category</code>.
-        ~42,000 products scraped from Amazon. Data is not official but is useful for practicing 
-        visual analytics and pattern-finding.
+        Columns used: <code>discounted_price</code>, <code>original_price</code>,
+        <code>discount_percentage</code>, <code>product_rating</code>, <code>total_reviews</code>, <code>product_category</code>.
+        ~42,000 products scraped from Amazon. Not official; good enough for exploratory visual analytics.
       </p>
     </section>
 
     <!-- Pre-processing -->
     <section>
-      <h2 class="text-xl font-semibold">Pre-processing</h2>
+      <h2 class="text-xl font-semibold">Prep</h2>
       <ul class="list-disc pl-6 mt-2 space-y-1">
-        <li>Converted numeric fields (price, discount, rating, reviews) to floats/integers.</li>
-        <li>Dropped rows missing critical values.</li>
-        <li>Clipped extreme outliers in reviews using log scale to handle heavy skew.</li>
-        <li>Created <code>discount_band</code> categories (No Discount, 0–20%, 20–50%, 50%+).</li>
+        <li>Forced numeric types for price, discount, rating, and review count; dropped rows missing critical fields.</li>
+        <li>Handled heavy skew in <code>total_reviews</code> with log-scale visuals and outlier clipping where needed.</li>
+        <li>Binned discounts into <code>discount_band</code>: No Discount, 0–20%, 20–50%, 50%+.</li>
       </ul>
     </section>
 
@@ -60,39 +55,73 @@
         <figure>
           <img src="figs/amazon_fig_reviews.png" alt="Distribution of total reviews (log scale)" class="w-full rounded border" />
           <figcaption class="text-sm text-gray-600 mt-1">
-            Reviews follow a long-tail: most products have very few reviews, a handful dominate.
+            Long tail, as expected: most items get almost no reviews; a tiny group dominates.
           </figcaption>
         </figure>
+
         <figure>
           <img src="figs/amazon_fig_ratings.png" alt="Distribution of product ratings" class="w-full rounded border" />
           <figcaption class="text-sm text-gray-600 mt-1">
-            Ratings cluster at 4–5 stars, so reviews (volume) matter more than ratings (quality).
+            Ratings are crammed between 4–5 stars. They don’t separate products much. Review volume does.
           </figcaption>
         </figure>
+
         <figure>
           <img src="figs/amazon_fig_categories.png" alt="Average reviews by category" class="w-full rounded border" />
           <figcaption class="text-sm text-gray-600 mt-1">
-            Categories like Phones and Power &amp; Batteries dominate by review counts; ratings across categories are similar.
+            Phones and Power &amp; Batteries pull far more reviews; average ratings are similar across categories.
           </figcaption>
         </figure>
+
         <figure>
           <img src="figs/amazon_fig_discount_reviews.png" alt="Average reviews by discount band" class="w-full rounded border" />
           <figcaption class="text-sm text-gray-600 mt-1">
-            Moderate discounts (20–50%) correlate with higher reviews; extreme 50%+ discounts underperform.
+            20–50% discounts line up with higher review counts. 50%+ looks worse—clearance ≠ buzz.
           </figcaption>
         </figure>
+
         <figure>
           <img src="figs/amazon_fig_discount_ratings.png" alt="Average ratings by discount band" class="w-full rounded border" />
           <figcaption class="text-sm text-gray-600 mt-1">
-            Ratings remain flat across discount bands; discounts boost purchases but not satisfaction.
+            Ratings barely move with discounting. Discounts drive purchases, not satisfaction.
           </figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- What I Learned -->
+    <!-- Findings -->
     <section>
-      <h2 class="text-xl font-semibold">What I Learned</h2>
+      <h2 class="text-xl font-semibold">Takeaways</h2>
       <ul class="list-disc pl-6 mt-2 space-y-1">
-        <li>Engagement is highly unequal: most products get very few reviews, a small minority dominate.</li>
-        <li>Ratings are compressed arou
+        <li>Engagement is brutal and unequal. The median product is quiet; a tiny fraction soaks up attention.</li>
+        <li>Ratings are compressed. They won’t rank-order winners. Review <em>volume</em> is the signal.</li>
+        <li>Category matters for visibility (Phones, Power/Batteries) more than for ratings.</li>
+        <li>Mid-range discounts (20–50%) correlate with more reviews; fire-sale 50%+ doesn’t help quality or volume much.</li>
+      </ul>
+    </section>
+
+    <!-- Limits -->
+    <section>
+      <h2 class="text-xl font-semibold">Limits</h2>
+      <ul class="list-disc pl-6 mt-2 space-y-1">
+        <li>Scraped snapshot, not official; no time dimension to prove causality.</li>
+        <li>Review count is a proxy for engagement, not revenue or units sold.</li>
+        <li>Category taxonomy may be noisy; some items cross categories.</li>
+      </ul>
+    </section>
+
+    <!-- Repro -->
+    <section>
+      <h2 class="text-xl font-semibold">Repro</h2>
+      <p class="mt-1">
+        Notebook loads the CSV, coerces numerics, bins discounts, and produces the charts above.
+        Figures are exported to <code>figs/</code> and referenced here.
+      </p>
+    </section>
+  </main>
+
+  <footer class="max-w-3xl mx-auto p-6 text-sm text-gray-600">
+    © 2025 Calvin Zheng
+  </footer>
+</body>
+</html>
