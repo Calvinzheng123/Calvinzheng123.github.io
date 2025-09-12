@@ -22,12 +22,12 @@
     <section>
       <h2 class="text-xl font-semibold">Problem</h2>
       <p class="mt-1">
-        Choose among a few U.S. cities for outdoor plans with <em>comfortable temperatures</em> and <em>lower rain risk</em>.
+        Choose among a few U.S. cities for outdoor plans with comfortable temperatures and lower rain risk.
         Using synthetic data, I (1) show temperature patterns over time, (2) summarize monthly rainfall by city,
         and (3) check how temperature aligns with humidity (comfort proxy). Goal: identify <strong>months to target vs. avoid</strong>.
       </p>
       <p class="mt-2 text-gray-700">
-        Who cares: <em>travelers</em>, <em>event planners</em>, and anyone scheduling outdoor activities.
+        Who cares: travelers, event planners, and anyone scheduling outdoor activities.
       </p>
     </section>
 
@@ -35,9 +35,9 @@
     <section>
       <h2 class="text-xl font-semibold">Data</h2>
       <p class="mt-1">
-        CSV columns: <code>Location</code>, <code>Date_Time</code>, <code>Temperature_C</code>,
+        CSV columns: <code>Location</code>, <code>Date_Time</code>, <code>Temperature_F</code>,
         <code>Humidity_pct</code>, <code>Precipitation_mm</code>, <code>Wind_Speed_kmh</code>.
-        This is <strong>synthetic</strong> training data—good for methods practice, not for real-world climate decisions.
+        This is <strong>synthetic</strong> training data, which is good for methods practice, not for real-world climate decisions.
       </p>
     </section>
 
@@ -60,7 +60,7 @@
         <li>
           Aggregations:
           <ul class="list-disc pl-6 mt-1 space-y-1">
-            <li><strong>Daily temperature:</strong> mean °C by city/date.
+            <li><strong>Daily temperature:</strong> mean °F by city/date.
               <span class="text-gray-600">Why: shows seasonal cycles at the right granularity.</span>
             </li>
             <li><strong>Monthly precipitation:</strong> total mm by city/month.
@@ -74,7 +74,6 @@
       </ul>
     </section>
 
-    <!-- Visuals (Tabs; uses your existing three PNGs) -->
     <section>
       <h2 class="text-xl font-semibold mb-2">Visualizations</h2>
 
@@ -115,14 +114,14 @@
 
         </div>
       </div>
-      
+
     </section>
 
     <!-- Findings -->
     <section>
       <h2 class="text-xl font-semibold">Findings</h2>
       <ul class="list-disc pl-6 mt-2 space-y-2">
-        <li><strong>Seasonality:</strong> Cities show predictable warm/cool phases. Plan outdoors just <em>before</em> peak heat; shoulder periods are most comfortable.</li>
+        <li><strong>Seasonality:</strong> Cities show predictable warm/cool phases. Plan outdoors just before peak heat; shoulder periods are most comfortable.</li>
         <li><strong>Rain risk:</strong> Monthly totals flag wetter windows. If you’re date-constrained, pick the city with both lower median and tighter spread in your target month.</li>
         <li><strong>Comfort proxy:</strong> Hexbin clusters around moderate temp + moderate humidity indicate the best “feel-like” zone for activities.</li>
       </ul>
@@ -200,11 +199,6 @@
     tabBtns.forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
     showTab('temp');
 
-    // Warn on missing critical images
-    const warn = document.getElementById('viz-warning');
-    document.querySelectorAll('img[data-critical]').forEach(img => {
-      img.addEventListener('error', () => { warn.classList.remove('hidden'); }, { once: true });
-    });
   </script>
 </body>
 </html>
