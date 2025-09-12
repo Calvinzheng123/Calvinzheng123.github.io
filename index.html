@@ -2,51 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Calvin Zheng — Portfolio</title>
+  <title>Calvin Zheng — Data Projects</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-white text-gray-900">
   <!-- Header -->
-  <header class="max-w-4xl mx-auto p-6 text-center">
-    <h1 class="text-4xl font-bold mb-2">Calvin Zheng</h1>
-    <p class="text-lg text-gray-700">Data Science Portfolio</p>
+  <header class="max-w-3xl mx-auto p-6">
+    <h1 class="text-3xl font-bold">Calvin Zheng — Data Projects</h1>
+    <p class="mt-2 text-gray-700">
+      Visual analytics, modeling, and reproducible notebooks. Minimal fluff, clear results.
+    </p>
   </header>
 
   <!-- Main -->
-  <main class="max-w-4xl mx-auto p-6 space-y-8">
-    <!-- Project 1 -->
-    <section class="p-6 bg-white rounded-2xl shadow">
-      <h2 class="text-2xl font-semibold mb-2">Project 1: Weather Data Exploration</h2>
-      <p class="text-gray-700 mb-4">
-        Explored daily average temperatures, monthly precipitation totals, and the
-        relationship between temperature and humidity using hexbin density plots.
-      </p>
-      <a href="weather.html"
-         class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-         View Project →
-      </a>
+  <main class="max-w-3xl mx-auto p-6 space-y-8">
+    <!-- Projects -->
+    <section>
+      <h2 class="text-xl font-semibold">Projects</h2>
+      <ul class="mt-3 grid gap-4">
+        <!-- Project 1: Weather -->
+        <li class="border rounded-lg p-4 hover:shadow-sm transition">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <a href="weather.html" class="text-lg font-semibold underline text-blue-600">
+                Project 1: Weather Data Exploration
+              </a>
+              <p class="mt-1 text-sm text-gray-700">
+                Synthetic weather dataset. Daily temp by city, monthly precipitation, and temp–humidity patterns.
+              </p>
+            </div>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2 text-sm">
+            <a class="px-3 py-1 rounded border hover:bg-gray-50" href="images/" title="Figures folder">Open images/</a>
+            <a class="px-3 py-1 rounded border hover:bg-gray-50" href="notebooks/WeatherProject_Notebook.ipynb" download>Download Notebook</a>
+            <a class="px-3 py-1 rounded border hover:bg-gray-50" target="_blank" rel="noopener"
+               href="https://nbviewer.org/github/Calvinzheng123/Calvinzheng123.github.io/blob/main/notebooks/WeatherProject_Notebook.ipynb">View on nbviewer</a>
+            <a class="px-3 py-1 rounded border hover:bg-gray-50" target="_blank" rel="noopener"
+               href="https://colab.research.google.com/github/Calvinzheng123/Calvinzheng123.github.io/blob/main/notebooks/WeatherProject_Notebook.ipynb">Open in Colab</a>
+          </div>
+        </li>
+
+        <!-- Project 2: Amazon -->
+        <li class="border rounded-lg p-4 hover:shadow-sm transition">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <a href="amazon.html" class="text-lg font-semibold underline text-blue-600">
+                Project 2: Visual Analytics — Amazon Product Engagement
+              </a>
+              <p class="mt-1 text-sm text-gray-700">
+                What drives engagement on Amazon? Review distribution, rating compression, category effects, and discount bands.
+              </p>
+            </div>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2 text-sm">
+            <a class="px-3 py-1 rounded border hover:bg-gray-50" href="figs/" title="Figures folder">Open figs/</a>
+            <!-- Point these to your repo paths if you commit the notebook/HTML -->
+            <a class="px-3 py-1 rounded border hover:bg-gray-50" href="notebooks/amazon.ipynb" download>Download Notebook</a>
+            <a class="px-3 py-1 rounded border hover:bg-gray-50" target="_blank" rel="noopener"
+               href="https://nbviewer.org/github/Calvinzheng123/Calvinzheng123.github.io/blob/main/notebooks/amazon.ipynb">View on nbviewer</a>
+            <a class="px-3 py-1 rounded border hover:bg-gray-50" target="_blank" rel="noopener"
+               href="https://colab.research.google.com/github/Calvinzheng123/Calvinzheng123.github.io/blob/main/notebooks/amazon.ipynb">Open in Colab</a>
+            <!-- Optional: if you commit the static HTML export -->
+            <!-- <a class="px-3 py-1 rounded border hover:bg-gray-50" href="amazon_notebook.html">View Notebook (HTML)</a> -->
+          </div>
+        </li>
+      </ul>
     </section>
 
-    <!-- Project 2 -->
-    <section class="p-6 bg-white rounded-2xl shadow">
-      <h2 class="text-2xl font-semibold mb-2">Project 2: Visual Analytics — Amazon Product Engagement</h2>
-      <p class="text-gray-700 mb-4">
-        Using 42k+ Amazon products, I explored what drives engagement, from the 
-        long-tail distribution of reviews, to category dominance, to the role of discounts.
+    <!-- About / Contact (optional, minimal) -->
+    <section>
+      <h2 class="text-xl font-semibold">About</h2>
+      <p class="mt-1 text-gray-700">
+        I build straightforward analyses and tools. If the result isn't clear in one scroll, it's not done.
       </p>
-      <a href="amazon.html"
-         class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-         View Project →
-      </a>
     </section>
+  </main>
 
   <!-- Footer -->
-  <footer class="max-w-4xl mx-auto p-6 text-center text-sm text-gray-500">
+  <footer class="max-w-3xl mx-auto p-6 text-sm text-gray-500">
     © <span id="y"></span> Calvin Zheng
   </footer>
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 </html>
