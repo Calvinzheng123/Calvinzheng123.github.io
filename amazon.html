@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Project 2 — Visual Analytics: Amazon Product Engagement (All‑in‑one)</title>
+  <title>Project 1: Visual Analytics - Amazon Product Engagement (All‑in‑one)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white text-gray-900">
   <header class="max-w-3xl mx-auto p-6">
     <a href="index.html" class="text-sm text-blue-600 underline">← Back</a>
-    <h1 class="text-3xl font-bold mt-2">Project 2: Visual Analytics — Amazon Product Engagement</h1>
+    <h1 class="text-3xl font-bold mt-2">Project 1: Visual Analytics - Amazon Product Engagement</h1>
     <p class="mt-2 text-gray-700">
       Dataset:
       <a class="underline text-blue-600" href="https://www.kaggle.com/datasets/ikramshah512/amazon-products-sales-dataset-42k-items-2025" target="_blank" rel="noopener">ikramshah512 — Amazon Products Sales (≈42k items, 2025)</a>.
@@ -20,12 +20,12 @@
     <!-- ===== Portfolio Post (Storytelling) ===== -->
     <section>
       <h2 class="text-2xl font-semibold">Story: What drives engagement?</h2>
-      <p class="mt-2">We examine how discounts, ratings, and category differences relate to engagement (proxied by <em>total_reviews</em>). The narrative uses 5 visuals and short takeaways; technical details live below.</p>
+      <p class="mt-2">I examined how discounts, ratings, and category differences relate to engagement (proxied by <em>total_reviews</em>). The narrative uses 5 visuals and short takeaways which you can read below.</p>
 
       <!-- Problem -->
       <div class="mt-6">
         <h3 class="text-xl font-semibold">Problem</h3>
-        <p class="mt-1">Explore drivers of product engagement on Amazon: (1) how reviews are distributed, (2) whether ratings separate winners from average, (3) which categories dominate, and (4) how discounting affects reviews and satisfaction.</p>
+        <p class="mt-1">I wanted to explore what the drivers of product engagement on Amazon were : (1) how reviews are distributed, (2) whether ratings separate winners from average, (3) which categories dominate, and (4) how discounting affects reviews and satisfaction.</p>
       </div>
 
       <!-- Data -->
@@ -65,10 +65,10 @@
       <div class="mt-6">
         <h3 class="text-xl font-semibold">What I Learned</h3>
         <ul class="list-disc pl-6 mt-2 space-y-1">
-          <li>Engagement is highly unequal — a few products dominate reviews.</li>
-          <li>Ratings are compressed; volume signals visibility more than quality.</li>
+          <li>Engagement is highly unequal  meaning a few products dominate reviews while others arent close.</li>
+          <li>Ratings are compressed which is shown by how volume signals visibility more than quality.</li>
           <li>Category visibility matters more than rating differences.</li>
-          <li>20–50% discounts align with more reviews; 50%+ doesn’t move ratings.</li>
+          <li>20–50% discounts align with more reviews; 50%+ doesn’t move ratings which could mean people are used to the discounts.</li>
         </ul>
       </div>
 
@@ -107,9 +107,9 @@
         <h3 class="text-xl font-semibold">Preprocessing & cleaning (with rationale)</h3>
         <ul class="list-disc pl-6 mt-2 space-y-2">
           <li><strong>Type coercion:</strong> cast prices/ratings/reviews to numeric; invalid strings → NaN.</li>
-          <li><strong>Missing handling:</strong> drop rows missing key fields (<code>product_rating</code>, <code>total_reviews</code>, <code>discounted_price</code>) or impute if minimal.</li>
-          <li><strong>Outliers:</strong> clip extreme <code>total_reviews</code> at a high percentile for plots; use log scale to show long-tail without distorting central mass.</li>
-          <li><strong>Derived features:</strong> <code>price_delta = original_price - discounted_price</code>; <code>discount_band</code> ∈ {No Discount, 0–20%, 20–50%, 50%+}.</li>
+          <li><strong>Missing handling:</strong> drop rows missing key fields (<code>product_rating</code>, <code>total_reviews</code>, <code>discounted_price</code>).</li>
+          <li><strong>Outliers:</strong> clip extreme <code>total_reviews</code> at a high percentile for plots; use log scale to show long-tail without distorting the data too much.</li>
+          <li><strong>Discount bands:</strong> created categorical <code>discount_band</code> (0%, 1–19%, 20–49%, 50%+) to reduce noise in discount analysis.</li>
           <li><strong>Category focus:</strong> restrict to top N categories by count when comparing distributions to avoid chart clutter.</li>
         </ul>
       </section>
@@ -118,12 +118,11 @@
       <section id="viz-choices" class="mt-6">
         <h3 class="text-xl font-semibold">Visualization & design choices</h3>
         <ul class="list-disc pl-6 mt-2 space-y-2">
-          <li><strong>Review distribution (hist/log):</strong> long-tail → log x-axis communicates inequality without hiding small counts.</li>
+          <li><strong>Review distribution (hist/log):</strong> long-tail, log x-axis communicates inequality without hiding small counts of data (before was in millions).</li>
           <li><strong>Ratings distribution:</strong> simple histogram shows compression at 4–5; violin/box optional for variance by category.</li>
-          <li><strong>Category comparisons:</strong> bar/box with ordered categories by mean reviews; labels kept short to avoid wrap.</li>
-          <li><strong>Discount vs reviews:</strong> group by <code>discount_band</code> to reduce noise; show CI/error bars for means.</li>
-          <li><strong>Discount vs ratings:</strong> flat trend warns against assuming discounts improve satisfaction.</li>
-          <li><strong>Color/annotations:</strong> neutral grayscale for base, highlight key bars/points to keep focus.</li>
+          <li><strong>Category comparisons:</strong> bar/box with ordered categories by mean reviews and kept labels short to avoid wrapping.</li>
+          <li><strong>Discount vs reviews:</strong> group by <code>discount_band</code> to reduce noise.</li>
+          <li><strong>Discount vs ratings:</strong> flat trend warns against assuming discounts improve satisfaction probably due to similarity in a lot of the data.</li>
         </ul>
       </section>
 
@@ -153,9 +152,9 @@ jupyter lab
       <section id="reflection" class="mt-6">
         <h3 class="text-xl font-semibold">Reflection</h3>
         <ul class="list-disc pl-6 mt-2 space-y-2">
-          <li><strong>What worked:</strong> log-scale review distribution and discount bands made the story crisp.</li>
-          <li><strong>What didn’t:</strong> ratings lacked variance; scatterplots were noisy without binning.</li>
-          <li><strong>Next time:</strong> add a time dimension (if available), include sales/units to move beyond proxy metrics, explore causal designs.</li>
+          <li><strong>What worked:</strong> log-scale review distribution and discount bands made the story better and not as cluttered.</li>
+          <li><strong>What didn’t:</strong> ratings lacked variance unfortunately and resulted in the scatterplots being noisy without binning.</li>
+          <li><strong>Next time:</strong> add a time dimension if I can find it somewhere, and include sales/units to move beyond basic metrics.</li>
         </ul>
       </section>
 
@@ -180,7 +179,7 @@ jupyter lab
         <ul class="list-disc pl-6 mt-2">
           <li>Kaggle dataset: <a class="underline text-blue-600" href="https://www.kaggle.com/datasets/ikramshah512/amazon-products-sales-dataset-42k-items-2025" target="_blank" rel="noopener">Amazon Products Sales (42k items, 2025)</a></li>
           <li>Libraries: pandas, matplotlib, seaborn</li>
-          <li>Transparency: ChatGPT assisted with page scaffolding and organization.</li>
+          <li>Transparency: ChatGPT assisted with page scaffolding and organization of the html and css.</li>
         </ul>
       </section>
     </section>
