@@ -33,9 +33,9 @@
 
       <!-- Data -->
       <div class="mt-6">
-        <h3 class="text-xl font-semibold">Data (for readers)</h3>
+        <h3 class="text-xl font-semibold">Data</h3>
         <p class="mt-1">
-          ~1.1M rows; target <code>fraud_bool</code>. Mix of demographics (age/income buckets, employment), geography (zips), transaction attributes, and a <code>month</code> field. Some fields are anonymized or bucketed by design. Fraud rate is low (~1–2%), which drives model/metric choices.
+          ~1.1M rows; target <code>fraud_bool</code>. Mix of demographics (age/income buckets, employment), geography (zips), transaction attributes, and a <code>month</code> field. Some fields are anonymized or bucketed. Fraud rate is low (~1–2%), which drives metric choices.
         </p>
       </div>
 
@@ -48,12 +48,8 @@
             <figcaption class="text-sm text-gray-600 mt-1">Severe imbalance: fraud is ~1–2% of all rows.</figcaption>
           </figure>
           <figure>
-            <img src="figs/baf_amt_by_class.png" alt="Boxplot of transaction amount by fraud label" class="w-full rounded border" />
-            <figcaption class="text-sm text-gray-600 mt-1">Amount patterns differ by class; long tails require robust summaries.</figcaption>
-          </figure>
-          <figure>
             <img src="figs/baf_corr_heatmap.png" alt="Correlation heatmap of numeric features and target" class="w-full rounded border" />
-            <figcaption class="text-sm text-gray-600 mt-1">Numeric correlations are modest; non-linear models can help.</figcaption>
+            <figcaption class="text-sm text-gray-600 mt-1">Numeric correlations are modest; non-linear models are better suited.</figcaption>
           </figure>
           <figure>
             <img src="figs/baf_roc_compare.png" alt="ROC curves for Logistic Regression and Random Forest" class="w-full rounded border" />
@@ -61,23 +57,34 @@
           </figure>
           <figure>
             <img src="figs/baf_pr_compare.png" alt="Precision-Recall curves for Logistic Regression and Random Forest" class="w-full rounded border" />
-            <figcaption class="text-sm text-gray-600 mt-1">PR curves matter under imbalance; RF’s AP is much higher.</figcaption>
+            <figcaption class="text-sm text-gray-600 mt-1">PR curves matter under imbalance; RF’s PR-AUC is far stronger.</figcaption>
           </figure>
           <figure>
             <img src="figs/baf_rf_importance.png" alt="Top feature importances from Random Forest" class="w-full rounded border" />
-            <figcaption class="text-sm text-gray-600 mt-1">Top features help explain model behavior and guide future features.</figcaption>
+            <figcaption class="text-sm text-gray-600 mt-1">Top features (e.g., device OS, address history, credit risk) make sense as fraud indicators.</figcaption>
           </figure>
         </div>
       </div>
 
+      <!-- Results & Storytelling -->
+      <div class="mt-6">
+        <h3 class="text-xl font-semibold">Results & Storytelling</h3>
+        <p class="mt-2">
+          Logistic Regression struggled (PR-AUC ≈ 0.046) while Random Forest performed much better (PR-AUC ≈ 0.13, ROC-AUC ≈ 0.876). Lowering the threshold from 0.5 to ~0.31 raised recall above 85%, catching most frauds but dropping precision to 3–4%. The confusion matrix at that cutoff shows ~1,890 frauds caught, ~316 missed, but over 54k false positives. This trade-off is acceptable in fraud detection where missing fraud is costlier than flagging too much.
+        </p>
+        <p class="mt-2">
+          Feature importances gave interpretability: unstable addresses, Windows devices, and weak credit risk scores were all strong signals. These align with known fraud risk factors and provide analysts with tangible review cues.
+        </p>
+      </div>
+
       <!-- Learnings -->
       <div class="mt-6">
-        <h3 class="text-xl font-semibold">What I Learned</h3>
+        <h3 class="text-xl font-semibold">Key Takeaways</h3>
         <ul class="list-disc pl-6 mt-2 space-y-1">
-          <li>Accuracy is useless here; **recall and PR-AUC** drive decisions.</li>
-          <li>LogReg finds positives but spams false alarms; RF has stronger separation and a better PR-AUC.</li>
-          <li>Threshold choice matters more than the “default” 0.5 — lowering it boosts recall at the cost of precision.</li>
-          <li>High-cardinality categoricals need taming (bucket rare categories) to keep models fast and stable.</li>
+          <li>Accuracy is misleading on imbalanced data; PR-AUC and recall drive meaningful evaluation.</li>
+          <li>Logistic Regression is a weak baseline, while Random Forest separates classes much better.</li>
+          <li>Threshold choice directly controls recall vs precision; the default 0.5 cutoff is rarely optimal.</li>
+          <li>Model insights (feature importances) connect predictions to real-world fraud behaviors.</li>
         </ul>
       </div>
 
@@ -85,7 +92,7 @@
       <div class="mt-6">
         <h3 class="text-xl font-semibold">Impact & Limits</h3>
         <p class="mt-1">
-          Positive: more fraud caught, less loss. Negative: false positives create friction (declines/blocks). Ethical angle: demographic proxies (zip, income buckets) can introduce bias; monitor subgroup performance and consider fairness constraints. Snapshot data, anonymization, and lack of causal structure limit claims.
+          Positive: higher fraud capture reduces direct financial loss. Negative: false positives create customer friction (blocked accounts, declined transactions). Ethical: some features (zip, income) may proxy for demographics, so fairness monitoring is necessary. Limits: dataset is anonymized and snapshot-based, so results are not causal and may not generalize to live fraud streams.
         </p>
       </div>
     </section>
@@ -94,7 +101,6 @@
     <section class="border-t pt-8">
       <h2 class="text-2xl font-semibold">Technical Report (Process & Reflection)</h2>
 
-      <!-- Quick TOC -->
       <nav class="mt-4 text-sm text-blue-700">
         <ul class="list-disc pl-6 space-y-1">
           <li><a href="#dataset-origin" class="underline">Dataset origin & description</a></li>
@@ -112,8 +118,7 @@
       <section id="dataset-origin" class="mt-6">
         <h3 class="text-xl font-semibold">Dataset origin & description</h3>
         <p class="mt-2">
-          Source: <a class="underline text-blue-600" href="https://github.com/feedzai/bank-account-fraud" target="_blank" rel="noopener">Feedzai BAF</a> (with a <a class="underline text-blue-600" href="https://www.kaggle.com/datasets/whenamancodes/bank-account-fraud-baf-dataset" target="_blank" rel="noopener">Kaggle mirror</a>). I use the <strong>Base</strong> variant. Target is <code>fraud_bool</code>.
-          Features include demographics, geography, transactional summaries, and month. Fraud rate ≈ 1–2%.
+          Source: <a class="underline text-blue-600" href="https://github.com/feedzai/bank-account-fraud" target="_blank" rel="noopener">Feedzai BAF</a> (with a <a class="underline text-blue-600" href="https://www.kaggle.com/datasets/whenamancodes/bank-account-fraud-baf-dataset" target="_blank" rel="noopener">Kaggle mirror</a>). I use the <strong>Base</strong> variant. Target is <code>fraud_bool</code>. Features include demographics, geography, transactional summaries, and month. Fraud rate ≈ 1–2%.
         </p>
       </section>
 
@@ -121,26 +126,26 @@
       <section id="preprocessing" class="mt-6">
         <h3 class="text-xl font-semibold">Preprocessing (with rationale)</h3>
         <ul class="list-disc pl-6 mt-2 space-y-2">
-          <li><strong>Target:</strong> cast <code>fraud_bool</code> to int (0/1).</li>
-          <li><strong>Categoricals → dummies:</strong> <code>pd.get_dummies(drop_first=True)</code> for simplicity and model compatibility.</li>
-          <li><strong>Train/Test split:</strong> stratified 80/20 to preserve the fraud ratio.</li>
-          <li><strong>Class imbalance:</strong> used <code>class_weight="balanced"</code> in both models; threshold tuning done at evaluation time.</li>
-          <li><strong>(Optional speed)</strong>: bucket rare categories to <code>__OTHER__</code> before dummies to reduce feature explosion.</li>
+          <li>Target: cast <code>fraud_bool</code> to int (0/1).</li>
+          <li>Categoricals → dummies with <code>pd.get_dummies(drop_first=True)</code>.</li>
+          <li>Train/Test split: stratified 80/20 to preserve fraud ratio.</li>
+          <li>Class imbalance: <code>class_weight="balanced"</code> in both models; tuned thresholds at eval time.</li>
+          <li>Optional: bucket rare categories to reduce feature explosion and runtime.</li>
         </ul>
       </section>
 
       <!-- Viz -->
       <section id="viz" class="mt-6">
         <h3 class="text-xl font-semibold">Data understanding & visuals</h3>
-        <p class="mt-2">I inspected class balance, distribution of amounts by class, and numeric correlations. This confirmed severe imbalance and hinted that non-linear splits could help — informing the Random Forest choice.</p>
+        <p class="mt-2">Class imbalance confirmed the need for PR-AUC and recall. Amount distributions and correlations suggested non-linear models could uncover useful interactions.</p>
       </section>
 
       <!-- Modeling -->
       <section id="modeling" class="mt-6">
         <h3 class="text-xl font-semibold">Modeling</h3>
         <ul class="list-disc pl-6 mt-2 space-y-2">
-          <li><strong>Logistic Regression</strong> — linear baseline, interpretable coefficients. Fast to train but struggled with convergence on wide dummies; decent recall, very low precision.</li>
-          <li><strong>Random Forest</strong> — ensemble of decision trees with bootstrap samples. Handles nonlinearity and interactions; higher AUCs and better PR behavior under imbalance.</li>
+          <li><strong>Logistic Regression</strong> — interpretable, linear baseline; struggled with convergence and precision.</li>
+          <li><strong>Random Forest</strong> — nonlinear ensemble; handled interactions better and delivered stronger AUCs.</li>
         </ul>
       </section>
 
@@ -148,14 +153,14 @@
       <section id="evaluation" class="mt-6">
         <h3 class="text-xl font-semibold">Evaluation & thresholds</h3>
         <ul class="list-disc pl-6 mt-2 space-y-2">
-          <li><strong>Metrics:</strong> ROC-AUC for ranking; PR-AUC for imbalance; Precision/Recall/F1 for operational trade-offs.</li>
-          <li><strong>Your results (example from my run):</strong>
+          <li><strong>Metrics:</strong> ROC-AUC, PR-AUC, Precision/Recall/F1.</li>
+          <li>Example results:
             <ul class="list-disc pl-6 mt-1">
-              <li>LogReg — ROC-AUC ≈ 0.73, PR-AUC ≈ 0.036, Recall ≈ 0.65, Precision ≈ 0.02.</li>
+              <li>LogReg — ROC-AUC ≈ 0.73, PR-AUC ≈ 0.046, Recall ≈ 0.65, Precision ≈ 0.02.</li>
               <li>Random Forest — ROC-AUC ≈ 0.876, PR-AUC ≈ 0.13, Recall ≈ 0.63, Precision ≈ 0.07.</li>
             </ul>
           </li>
-          <li><strong>Threshold tuning:</strong> lower the cutoff below 0.5 to boost recall; choose a threshold that meets a target recall (e.g., ≥80%) and report the resulting precision.</li>
+          <li><strong>Threshold tuning:</strong> lowering cutoff boosted recall >80% but at the cost of precision (~3–4%).</li>
         </ul>
       </section>
 
@@ -163,7 +168,7 @@
       <section id="impact" class="mt-6">
         <h3 class="text-xl font-semibold">Impact</h3>
         <p class="mt-2">
-          Catching more fraud reduces losses but increases customer friction from false positives. Monitor subgroup performance, add human-in-the-loop review for edge cases, and revisit thresholds as fraud patterns shift. Avoid using demographic proxies in isolation.
+          Catching fraud reduces losses, but false positives create customer frustration. Ethical concerns include bias from demographic proxies. Limits: dataset is static and anonymized, not live transactions.
         </p>
       </section>
 
@@ -185,8 +190,8 @@
         <h3 class="text-xl font-semibold">References</h3>
         <ul class="list-disc pl-6 mt-2">
           <li>Dataset: <a class="underline text-blue-600" href="https://github.com/feedzai/bank-account-fraud" target="_blank" rel="noopener">Feedzai BAF (Base)</a> / <a class="underline text-blue-600" href="https://www.kaggle.com/datasets/whenamancodes/bank-account-fraud-baf-dataset" target="_blank" rel="noopener">Kaggle mirror</a></li>
-          <li>Libraries: pandas, scikit-learn, matplotlib (and optionally seaborn for heatmaps)</li>
-          <li>Transparency: ChatGPT assisted with page scaffolding/content organization.</li>
+          <li>Libraries: pandas, scikit-learn, matplotlib, seaborn</li>
+          <li>Transparency: ChatGPT assisted with scaffolding and write-up organization.</li>
         </ul>
       </section>
     </section>
