@@ -16,7 +16,7 @@
       <a class="underline text-blue-600" href="https://github.com/feedzai/bank-account-fraud" target="_blank" rel="noopener">Feedzai — Bank Account Fraud (BAF)</a>
       (<a class="underline text-blue-600" href="https://www.kaggle.com/datasets/whenamancodes/bank-account-fraud-baf-dataset" target="_blank" rel="noopener">Kaggle mirror</a>).
     </p>
-    <p class="mt-1 text-gray-700">Task: binary classification — predict <code>fraud_bool</code> (1 = fraud, 0 = non-fraud).</p>
+    <p class="mt-1 text-gray-700">Goal: binary classification — predict <code>fraud_bool</code> (1 = fraud, 0 = non-fraud).</p>
   </header>
 
   <main class="max-w-3xl mx-auto p-6 space-y-10">
@@ -25,7 +25,7 @@
       <h2 class="text-2xl font-semibold">Story: Detecting fraud under heavy imbalance</h2>
       <p class="mt-2">
         Fraud is rare in the real world, and it was just as rare in this dataset (about 1–2% of all rows). 
-        I compared two classifiers — Logistic Regression as a baseline and Random Forest as a nonlinear model — 
+        I compared two classifiers, Logistic Regression as a baseline and Random Forest as a nonlinear model 
         to see how well they could separate fraud from non-fraud. I also experimented with adjusting decision thresholds, 
         since catching fraud often means trading precision for higher recall.
       </p>
@@ -48,7 +48,7 @@
           Features included demographics (age and income buckets, employment), 
           geography (zip codes), transaction summaries, and a <code>month</code> field. 
           Several columns were anonymized or bucketed. Because the fraud rate was so low, 
-          evaluation metrics had to be chosen carefully — accuracy alone wasn’t enough.
+          evaluation features had to be chosen carefully and accuracy alone wasn’t enough.
         </p>
       </div>
 
@@ -93,7 +93,7 @@
           since it is usually worse to miss fraud than to review a few extra false alarms.
         </p>
         <p class="mt-2">
-          The confusion matrix at this threshold showed ~1,890 frauds caught, ~316 missed, but also ~54,000 false positives. 
+          The confusion matrix at this threshold showed around 1,890 frauds caught, 316 missed, but also around 54,000 false positives. 
           Even with a good model, the imbalance creates challenges. Still, the recall gain demonstrated the value of tuning thresholds.  
           Feature importance results added interpretability: unstable addresses, Windows devices, and weak credit scores stood out, 
           all of which match what you might expect from real fraud risk factors.
@@ -104,7 +104,7 @@
       <div class="mt-6">
         <h3 class="text-xl font-semibold">Key Takeaways</h3>
         <ul class="list-disc pl-6 mt-2 space-y-1">
-          <li>Accuracy looked high (~90%) but was misleading; PR-AUC and recall were the real indicators of performance.</li>
+          <li>Accuracy looked high (90%) but was misleading; PR-AUC and recall were the real indicators of performance.</li>
           <li>Logistic Regression worked as a baseline, but Random Forest provided much stronger separation and more useful trade-offs.</li>
           <li>Threshold choice was just as important as the model — small changes had a big effect on recall and precision.</li>
           <li>Feature importances connected model behavior to real-world fraud patterns, which made the results easier to interpret.</li>
@@ -168,8 +168,8 @@
       <section id="viz" class="mt-6">
         <h3 class="text-xl font-semibold">Data understanding & visuals</h3>
         <p class="mt-2">
-          Early exploration confirmed the severe class imbalance. Boxplots of transaction amounts and correlation heatmaps 
-          suggested that linear models would have limited success, which supported the decision to try Random Forest for nonlinear interactions.
+          Early exploration confirmed the severe class imbalance and correlation heatmaps 
+          showed that linear models would have limited success, which supported the decision to try Random Forest for nonlinear interactions.
         </p>
       </section>
 
@@ -177,8 +177,8 @@
       <section id="modeling" class="mt-6">
         <h3 class="text-xl font-semibold">Modeling</h3>
         <ul class="list-disc pl-6 mt-2 space-y-2">
-          <li><strong>Logistic Regression</strong> — a linear baseline. It was quick to train and interpretable but struggled with convergence and gave very low precision.</li>
-          <li><strong>Random Forest</strong> — an ensemble of decision trees. It handled nonlinear relationships and interactions better, delivering stronger ROC-AUC and PR-AUC scores.</li>
+          <li><strong>Logistic Regression</strong> — a linear baseline. It was slow to train and while interpretable, it struggled with convergence and gave very low precision.</li>
+          <li><strong>Random Forest</strong> — an ensemble of decision trees. It handled nonlinear relationships and interactions better and delivered stronger ROC-AUC and PR-AUC scores.</li>
         </ul>
       </section>
 
@@ -186,14 +186,14 @@
       <section id="evaluation" class="mt-6">
         <h3 class="text-xl font-semibold">Evaluation & thresholds</h3>
         <ul class="list-disc pl-6 mt-2 space-y-2">
-          <li><strong>Metrics:</strong> ROC-AUC and PR-AUC were most important; Precision, Recall, and F1 provided more operational context.</li>
+          <li><strong>Metrics:</strong> ROC-AUC and PR-AUC were most important for me, Precision, Recall, and F1 provided more operational context but were standard so I still found out what they were.</li>
           <li><strong>Example results:</strong>
             <ul class="list-disc pl-6 mt-1">
-              <li>Logistic Regression — ROC-AUC ≈ 0.73, PR-AUC ≈ 0.046, Recall ≈ 0.65, Precision ≈ 0.02.</li>
-              <li>Random Forest — ROC-AUC ≈ 0.876, PR-AUC ≈ 0.13, Recall ≈ 0.63, Precision ≈ 0.07.</li>
+              <li>Logistic Regression — ROC-AUC = 0.66, PR-AUC = 0.02, Recall = 0.52, Precision = 0.02.</li>
+              <li>Random Forest — ROC-AUC = 0.876, PR-AUC = 0.13, Recall = 0.63, Precision = 0.07.</li>
             </ul>
           </li>
-          <li>Lowering the Random Forest threshold boosted recall above 80% but dropped precision to single digits — a trade-off often seen in fraud detection.</li>
+          <li>Lowering the Random Forest threshold boosted recall above 80% but dropped precision to single digits which a trade-off often seen in fraud detection.</li>
         </ul>
       </section>
 
@@ -201,7 +201,7 @@
       <section id="impact" class="mt-6">
         <h3 class="text-xl font-semibold">Impact</h3>
         <p class="mt-2">
-          Capturing more fraud reduces direct financial losses, but too many false positives can frustrate customers. 
+          Capturing more fraud reduces direct financial losses, but too many false positives could frustrate customers. 
           Ethical considerations include the possibility of demographic bias if features like income or zip code serve as indirect proxies. 
           Since the dataset was static and anonymized, the results don’t capture evolving fraud strategies, but they highlight 
           the real challenges of balancing fraud detection performance with fairness and customer experience.
@@ -213,10 +213,10 @@
         <h3 class="text-xl font-semibold">Code & Notebook</h3>
         <p class="mt-1">Reproducible assets:</p>
         <div class="space-y-2">
-          <p><a class="underline text-blue-600" href="notebooks/project2_baf_fraud.ipynb" download>Download the Jupyter Notebook</a></p>
+          <p><a class="underline text-blue-600" href="notebooks/Fraud.ipynb" download>Download the Jupyter Notebook</a></p>
           <div class="space-x-3 mt-2">
-            <a class="inline-block px-3 py-2 rounded bg-black text-white" href="https://colab.research.google.com/github/Calvinzheng123/Calvinzheng123.github.io/blob/main/notebooks/project2_baf_fraud.ipynb" target="_blank" rel="noopener">Open in Colab</a>
-            <a class="inline-block px-3 py-2 rounded bg-gray-200" href="https://nbviewer.org/github/Calvinzheng123/Calvinzheng123.github.io/blob/main/notebooks/project2_baf_fraud.ipynb" target="_blank" rel="noopener">View on nbviewer</a>
+            <a class="inline-block px-3 py-2 rounded bg-black text-white" href="https://colab.research.google.com/github/Calvinzheng123/Calvinzheng123.github.io/blob/main/notebooks/Fraud.ipynb" target="_blank" rel="noopener">Open in Colab</a>
+            <a class="inline-block px-3 py-2 rounded bg-gray-200" href="https://nbviewer.org/github/Calvinzheng123/Calvinzheng123.github.io/blob/main/notebooks/Fraud.ipynb" target="_blank" rel="noopener">View on nbviewer</a>
           </div>
         </div>
       </section>
@@ -227,7 +227,7 @@
         <ul class="list-disc pl-6 mt-2">
           <li>Dataset: <a class="underline text-blue-600" href="https://github.com/feedzai/bank-account-fraud" target="_blank" rel="noopener">Feedzai BAF (Base)</a> / <a class="underline text-blue-600" href="https://www.kaggle.com/datasets/whenamancodes/bank-account-fraud-baf-dataset" target="_blank" rel="noopener">Kaggle mirror</a></li>
           <li>Libraries: pandas, scikit-learn, matplotlib, seaborn</li>
-          <li>Transparency: ChatGPT helped organize the page structure and polish the write-up as well as help with brainstorming ideas such as the threshold and class imbalance solutions.</li>
+          <li>Transparency: ChatGPT helped organize the page structure and polish the write-up as well as help with brainstorming ideas such as the threshold and class imbalance solutions as well as implementing them.</li>
         </ul>
       </section>
     </section>
