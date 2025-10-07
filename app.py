@@ -5,7 +5,7 @@ import plotly.express as px
 st.set_page_config(page_title="Amazon Product Sales Dashboard", layout="wide")
 
 # --- READ CSV DIRECTLY ---
-df = pd.read_csv('/Users/calvi/Downloads/archive (4)/amazon_products_sales_data_cleaned.csv')
+df = pd.read_csv("data/amazon_products_sales_data_cleaned.csv")
 
 # --- CLEAN / FEATURE ENGINEER ---
 df["discount_percent"] = (1 - df["discounted_price"] / df["original_price"]) * 100
