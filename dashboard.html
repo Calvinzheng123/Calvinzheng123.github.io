@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Project 2: Interactive Dashboard – Amazon Product Engagement</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-white text-gray-900">
+  <header class="max-w-3xl mx-auto p-6">
+    <a href="index.html" class="text-sm text-blue-600 underline">← Back</a>
+    <h1 class="text-3xl font-bold mt-2">Project 2: Interactive Dashboard – Amazon Product Engagement</h1>
+    <p class="mt-2 text-gray-700">
+      Dataset:
+      <a class="underline text-blue-600" href="https://www.kaggle.com/datasets/ikramshah512/amazon-products-sales-dataset-42k-items-2025" target="_blank" rel="noopener">
+        ikramshah512 — Amazon Products Sales (≈42k items, 2025)
+      </a>
+    </p>
+  </header>
+
+  <main class="max-w-3xl mx-auto p-6 space-y-10">
+
+    <!-- ===== Overview ===== -->
+    <section>
+      <h2 class="text-2xl font-semibold">Overview</h2>
+      <p class="mt-2">
+        This project transforms the static analysis from Project 1 into a fully interactive Streamlit dashboard that
+        allows users to explore product engagement drivers on Amazon. The dashboard connects ratings, discounts, coupons,
+        and category visibility to engagement (measured by <em>total_reviews</em>).
+      </p>
+    </section>
+
+    <!-- ===== Audience & Purpose ===== -->
+    <section>
+      <h2 class="text-2xl font-semibold">Audience & Purpose</h2>
+      <p class="mt-2">
+        <strong>Audience:</strong> Amazon merchandising and category managers.<br>
+        <strong>Purpose:</strong> Provide an interactive tool to evaluate how discount strategy, coupons, and sponsorships influence
+        visibility and customer engagement across product categories.
+      </p>
+    </section>
+
+    <!-- ===== KPIs ===== -->
+    <section>
+      <h2 class="text-2xl font-semibold">Key Performance Indicators (KPIs)</h2>
+      <ul class="list-disc pl-6 mt-2 space-y-1">
+        <li><strong>Average Rating</strong> – proxy for customer satisfaction.</li>
+        <li><strong>Total Reviews</strong> – measures product engagement and visibility.</li>
+        <li><strong>Average Discount %</strong> – reflects promotion strategy and pricing leverage.</li>
+        <li><strong>Best-Seller Share %</strong> – percent of top-ranked products within filtered view.</li>
+      </ul>
+      <p class="mt-2 text-gray-700">
+        These KPIs balance what the audience can <em>control</em> (pricing, promotions) and what they want to
+        <em>understand</em> (engagement and satisfaction).
+      </p>
+    </section>
+
+    <!-- ===== Dashboard Structure ===== -->
+    <section>
+      <h2 class="text-2xl font-semibold">Dashboard Structure & Interactivity</h2>
+      <ul class="list-disc pl-6 mt-2 space-y-2">
+        <li><strong>KPI Row:</strong> Four summary metrics update instantly when filters change.</li>
+        <li><strong>Filters:</strong> Category, rating range, price range, coupon flag, sponsorship flag.</li>
+        <li><strong>Charts:</strong>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>Histogram of product ratings – shows compression around 4–5 stars.</li>
+            <li>Scatterplot of purchases vs rating – color-coded by sponsorship for easy comparison.</li>
+          </ul>
+        </li>
+        <li><strong>Predictor Tool:</strong> A regression model (trained in <code>train_model.py</code>)
+            estimates expected review count for a hypothetical product using price, rating, discount, coupon, and category inputs.</li>
+        <li><strong>Diagnostics:</strong> Displays R², MAE, and log–log Actual vs Predicted plot for model reliability.</li>
+      </ul>
+    </section>
+
+    <!-- ===== Design Choices ===== -->
+    <section>
+      <h2 class="text-2xl font-semibold">Design Choices</h2>
+      <ul class="list-disc pl-6 mt-2 space-y-2">
+        <li><strong>Platform:</strong> Streamlit for quick, interactive deployment and easy public sharing.</li>
+        <li><strong>Layout:</strong> Vertical flow (KPIs → Charts → Predictor → Diagnostics) for natural reading.</li>
+        <li><strong>Visuals:</strong> Simple, uncluttered, readable color scheme via Plotly defaults.</li>
+        <li><strong>Function over flash:</strong> Prioritized speed, usability, and interpretability.</li>
+      </ul>
+    </section>
+
+    <!-- ===== Data Cleaning ===== -->
+    <section>
+      <h2 class="text-2xl font-semibold">Data Cleaning & Feature Engineering</h2>
+      <ul class="list-disc pl-6 mt-2 space-y-2">
+        <li>Converted all numeric fields (prices, ratings, reviews) to proper numeric types.</li>
+        <li>Dropped rows missing key data (rating, reviews, price).</li>
+        <li>Created <code>discount_percent</code>, <code>price_delta</code>, and <code>price_ratio</code> for analysis and model input.</li>
+        <li>Normalized categorical flags (<code>has_coupon</code>, <code>is_sponsored</code>) to 0 / 1 values.</li>
+        <li>Capped extreme outliers to reduce distortion in histograms and model fit.</li>
+      </ul>
+    </section>
+
+    <!-- ===== Reflection ===== -->
+    <section>
+      <h2 class="text-2xl font-semibold">Reflection</h2>
+      <ul class="list-disc pl-6 mt-2 space-y-2">
+        <li><strong>What worked:</strong> Filters and KPIs made it easy to connect pricing levers to engagement metrics.</li>
+        <li><strong>Challenges:</strong> Cleaning coupon/sponsorship text data and handling extreme skew in review counts.</li>
+        <li><strong>Next steps:</strong> Add a time-series or brand-level dimension to show trends over time.</li>
+      </ul>
+    </section>
+
+    <!-- ===== References ===== -->
+    <section class="border-t pt-8">
+      <h2 class="text-2xl font-semibold">References & Reproducibility</h2>
+      <ul class="list-disc pl-6 mt-2 space-y-1">
+        <li>Dataset: <a class="underline text-blue-600" href="https://www.kaggle.com/datasets/ikramshah512/amazon-products-sales-dataset-42k-items-2025" target="_blank" rel="noopener">Amazon Products Sales Dataset (Kaggle)</a></li>
+        <li>Libraries: pandas, numpy, plotly, streamlit, scikit-learn, joblib</li>
+        <li>Code files: <code>train_model.py</code>, <code>app.py</code>, and <code>data/amazon_products_sales_data_cleaned.csv</code></li>
+        <li>Deployment: Streamlit Cloud (linked on portfolio site)</li>
+        <li>Transparency: ChatGPT assisted in code structure and documentation organization.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="max-w-3xl mx-auto p-6 text-sm text-gray-500">
+    © <span id="y"></span> Calvin Zheng
+  </footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
