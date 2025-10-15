@@ -1,3 +1,8 @@
-streamlit>=1.38
+# requirements.txt
+streamlit>=1.35
 pandas>=2.2
-plotly>=5.24
+numpy==2.0.*
+scipy==1.14.*
+scikit-learn==1.5.*
+joblib>=1.3
+plotly>=5.22
