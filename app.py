@@ -6,8 +6,34 @@ import joblib
 st.set_page_config(page_title="Amazon Product Dashboard", layout="wide")
 
 DATA = Path("data/amazon_products_sales_data_cleaned.csv")
+
+from pathlib import Path
+import subprocess, sys, joblib
+
 MODEL_PATH = Path("model/reviews_model.pkl")
 META_PATH  = Path("model/reviews_meta.joblib")
+
+@st.cache_resource
+def load_model():
+    # 1) Try load
+    try:
+        if MODEL_PATH.exists() and META_PATH.exists():
+            m = joblib.load(MODEL_PATH)
+            meta = joblib.load(META_PATH)
+            return m, meta
+    except Exception as e:
+        st.warning(f"Model load failed in this environment. Re-training here. Details: {type(e).__name__}")
+
+    # 2) Retrain in *this* Python/env
+    MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.check_call([sys.executable, "train_model.py"])
+
+    # 3) Load the freshly trained model
+    m = joblib.load(MODEL_PATH)
+    meta = joblib.load(META_PATH)
+    return m, meta
+
+model, meta = load_model()
 
 # Functions to help with loading and processing data
 def binarize(s: pd.Series) -> pd.Series:
