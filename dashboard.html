@@ -78,10 +78,11 @@
     <section>
       <h2 class="text-2xl font-semibold">Design Choices</h2>
       <ul class="list-disc pl-6 mt-2 space-y-2">
-        <li><strong>Platform:</strong> Streamlit for quick, interactive deployment and easy public sharing.</li>
+        <li><strong>Platform:</strong> Streamlit cloud for quick, interactive deployment and easy public sharing.</li>
         <li><strong>Layout:</strong> Vertical flow (KPIs → Charts → Predictor → Diagnostics) for natural reading.</li>
-        <li><strong>Visuals:</strong> Simple, uncluttered, readable color scheme via Plotly defaults.</li>
-        <li><strong>Function over flash:</strong> Prioritized speed, usability, and interpretability.</li>
+        <li><strong>Visuals:</strong> Simple, uncluttered, readable color scheme with Plotly defaults.</li>
+        <li><strong>Function over flash:</strong> Didnt really do anything too colorful, I wanted my actual
+            model and plots to be interpreted well.</li>
       </ul>
     </section>
 
@@ -101,9 +102,10 @@
     <section>
       <h2 class="text-2xl font-semibold">Reflection</h2>
       <ul class="list-disc pl-6 mt-2 space-y-2">
-        <li><strong>What worked:</strong> Filters and KPIs made it easy to connect pricing levers to engagement metrics.</li>
-        <li><strong>Challenges:</strong> Cleaning coupon/sponsorship text data and handling extreme skew in review counts.</li>
-        <li><strong>Next steps:</strong> Add a time-series or brand-level dimension to show trends over time.</li>
+        <li><strong>What worked:</strong> Filters and KPIs made it easy to connect pricing levers to engagement metrics, the model works but could be improved, happy to have it on there though.</li>
+        <li><strong>Challenges:</strong> Cleaning coupon/sponsorship text data and handling extreme skew in review counts 
+            as well as actually hosting the dashboard.</li>
+        <li><strong>Could Improve:</strong> Definetly making the visuals look a lot better, feel like they were lacking for this project.</li>
       </ul>
     </section>
 
@@ -115,7 +117,8 @@
         <li>Libraries: pandas, numpy, plotly, streamlit, scikit-learn, joblib</li>
         <li>Code files: <code>train_model.py</code>, <code>app.py</code>, and <code>data/amazon_products_sales_data_cleaned.csv</code></li>
         <li>Deployment: Streamlit Cloud (linked on portfolio site)</li>
-        <li>Transparency: ChatGPT assisted in code structure and documentation organization.</li>
+        <li>Transparency: ChatGPT assisted in helping me import the model into the dashboard
+            as well as help host it on streamlit, also used it to fix code structure and documentation organization.</li>
       </ul>
     </section>
 
