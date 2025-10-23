@@ -35,7 +35,7 @@
         <h3 class="text-xl font-semibold">Problem</h3>
         <p class="mt-1">
           The objective was to estimate listing price from numeric features such as location coordinates, reviews, and availability. 
-          The challenge was limited signal — most important pricing factors (size, amenities, décor) aren’t captured in the dataset.
+          The challenge was limited signal since most important pricing factors (size, amenities, décor) aren’t captured in the dataset and it had a lot of useless features.
         </p>
       </div>
 
@@ -45,7 +45,7 @@
         <p class="mt-1">
           The dataset contained ~100k listings and 26 columns. Many were categorical or text-heavy (e.g., host name, neighborhood, cancellation policy).  
           I focused on numeric variables: <code>lat</code>, <code>long</code>, <code>minimum nights</code>, <code>reviews per month</code>, 
-          <code>number of reviews</code>, <code>availability 365</code>, <code>Construction year</code>, and several engineered ratios.
+          <code>number of reviews</code>, <code>availability 365</code>, <code>Construction year</code>, and several feature engineered ratios.
         </p>
       </div>
 
@@ -79,7 +79,7 @@
           </tbody>
         </table>
         <p class="mt-3">
-          Gradient Boosting barely improved fit, confirming the limited predictive signal in available numeric fields.
+          Gradient Boosting barely improved the fit, which confirmed for me that there was really limited predictive signal in available numeric fields.
         </p>
       </div>
 
@@ -146,18 +146,54 @@
         </ul>
       </section>
 
-      <!-- Experiments -->
       <section id="exp" class="mt-6">
         <h3 class="text-xl font-semibold">Experiments 1–3</h3>
-        <ul class="list-disc pl-6 mt-2 space-y-2">
-          <li><strong>Exp 1 — Linear Regression:</strong> baseline linear fit; no regularization.  
-            RMSE ≈ 345.96, MAE ≈ 294.51, R² ≈ 0.0.
+        <ul class="list-disc pl-6 mt-2 space-y-4">
+          <li>
+            <strong>Exp 1 — Linear Regression (Baseline):</strong>
+            <p class="mt-1">
+              The goal of this first experiment was to establish a simple baseline using standard <code>LinearRegression</code>. 
+              Linear models are easy to interpret and highlight whether a straightforward, additive relationship exists between predictors 
+              and price. This model assumes that features like latitude, longitude, reviews, and availability have a direct linear influence on 
+              log-transformed price. 
+            </p>
+            <p class="mt-1">
+              The result — <strong>RMSE ≈ 345.96, MAE ≈ 294.51, R² ≈ 0.0</strong> — revealed almost no linear correlation between our selected features 
+              and the target variable. This suggested that the relationship between Airbnb prices and available metadata is either weak or highly nonlinear.
+            </p>
           </li>
-          <li><strong>Exp 2 — Ridge Regression:</strong> L2 regularization (α = 1.0); identical outcome → no collinearity issue.  
-            RMSE ≈ 345.96, MAE ≈ 294.51, R² ≈ 0.0.
+      
+          <li>
+            <strong>Exp 2 — Ridge Regression (Regularized Linear):</strong>
+            <p class="mt-1">
+              Next, I tested Ridge Regression with <strong>L2 regularization (α = 1.0)</strong> to investigate whether multicollinearity among 
+              numeric variables (like review counts and availability) was inflating noise in the linear model. Ridge penalizes large coefficient values, 
+              which can stabilize estimates and slightly reduce overfitting when features are correlated.
+            </p>
+            <p class="mt-1">
+              The outcome — <strong>RMSE ≈ 345.96, MAE ≈ 294.51, R² ≈ 0.0</strong> — was virtually identical to the baseline. This confirmed that 
+              the model’s lack of explanatory power wasn’t due to collinearity but rather insufficient predictive signal within the features themselves.
+            </p>
           </li>
-          <li><strong>Exp 3 — Gradient Boosting:</strong> tree ensemble (400 estimators, lr = 0.05, depth = 3).  
-            RMSE ≈ 344.67, MAE ≈ 293.16, R² ≈ 0.007 (≈ 0.7 % variance explained).</li>
+      
+          <li>
+            <strong>Exp 3 — Gradient Boosting (Nonlinear Tree Ensemble):</strong>
+            <p class="mt-1">
+              Finally, I applied a <strong>Gradient Boosting Regressor</strong> 
+              (<code>n_estimators=400</code>, <code>learning_rate=0.05</code>, <code>max_depth=3</code>) to capture potential nonlinear 
+              patterns — such as interactions between geographic coordinates and review behavior — that linear models cannot represent.
+            </p>
+            <p class="mt-1">
+              The result — <strong>RMSE ≈ 344.67, MAE ≈ 293.16, R² ≈ 0.007</strong> — indicated a minor improvement, explaining less than 
+              1% of the variance. This small gain implies that while weak nonlinear structure exists (mostly tied to latitude and longitude), 
+              the dataset lacks richer descriptive or contextual features to make substantial price predictions.
+            </p>
+            <p class="mt-1">
+              Overall, the three experiments demonstrate that model complexity alone cannot compensate for missing information. 
+              Improvements will depend on introducing new features (e.g., property type, amenities, or proximity to attractions) 
+              rather than tuning algorithms.
+            </p>
+          </li>
         </ul>
       </section>
 
