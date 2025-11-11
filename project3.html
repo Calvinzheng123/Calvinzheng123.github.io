@@ -1,0 +1,153 @@
+<!-- Project 3: Amazon Product Engagement Dashboard -->
+<div class="bg-white p-6 rounded-lg shadow border">
+    <h2 class="text-xl font-bold">Project 3: Amazon Product Engagement Dashboard</h2>
+    <p class="mt-2 text-gray-700">
+      Interactive Streamlit dashboard analyzing how ratings, discounts, coupons, and sponsorships
+      relate to customer engagement (total reviews) across Amazon product categories.
+    </p>
+  
+    <div class="mt-3 flex flex-wrap gap-3 items-center">
+      <a
+        href="https://your-streamlit-url-here"
+        target="_blank"
+        class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md bg-amber-500 text-white hover:bg-amber-600"
+      >
+        View Live Dashboard
+      </a>
+      <a
+        href="https://github.com/your-repo-here"
+        target="_blank"
+        class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50"
+      >
+        View Code
+      </a>
+    </div>
+  
+    <!-- Quick bullets so the card itself tells the story -->
+    <ul class="mt-3 list-disc list-inside text-gray-700 text-sm space-y-1">
+      <li>Built an Amazon-themed dashboard with filters for category, price band, coupon, and sponsorship.</li>
+      <li>Visualized rating distributions and purchases vs. ratings to separate visibility vs. satisfaction problems.</li>
+      <li>Trained a model to predict total reviews from rating, price, discounts, and promo signals for what-if scenarios.</li>
+    </ul>
+  
+    <!-- DESIGN REPORT embedded in the portfolio -->
+    <details class="mt-5 border-t pt-4 group">
+      <summary class="cursor-pointer text-sm font-semibold text-gray-800 flex items-center justify-between">
+        <span>Design Report (Audience, Story, Design Choices, Reflection)</span>
+        <span class="text-xs text-gray-500 group-open:hidden">Click to expand</span>
+        <span class="text-xs text-gray-500 hidden group-open:inline">Click to collapse</span>
+      </summary>
+  
+      <div class="mt-3 space-y-4 text-sm text-gray-800">
+        <!-- Audience & Intent -->
+        <section>
+          <h3 class="text-base font-semibold text-gray-900">Audience &amp; Intent</h3>
+          <p class="mt-1">
+            This dashboard is designed for Amazon category and merchandising managers who need to decide
+            where to focus promotions, coupons, and sponsored placements. The core question is:
+            <span class="font-medium">given a slice of the catalog, are we facing a visibility problem or a satisfaction problem?</span>
+          </p>
+          <p class="mt-1">
+            The intent is to help them quickly assess rating quality and engagement for a chosen slice,
+            see how sponsorship and coupons show up in behavior, and run simple
+            <span class="italic">what-if</span> checks on pricing and promo setups to estimate expected total reviews.
+          </p>
+        </section>
+  
+        <!-- Story & Structure -->
+        <section>
+          <h3 class="text-base font-semibold text-gray-900">Story &amp; Structure</h3>
+          <p class="mt-1">
+            The layout follows a top-to-bottom narrative so the audience doesn’t have to hunt for meaning:
+          </p>
+          <ul class="mt-2 list-disc list-inside space-y-1">
+            <li>
+              <span class="font-medium">Hero + KPIs:</span> headline and metrics (avg rating, total reviews, avg discount, best-seller share)
+              give a fast read on the slice’s overall health.
+            </li>
+            <li>
+              <span class="font-medium">Rating distribution:</span> histogram shows whether the slice is mostly high quality
+              or noisy, building trust before we talk about promos.
+            </li>
+            <li>
+              <span class="font-medium">Purchases vs. rating (sponsored vs. organic):</span>
+              scatter plot connects performance to levers managers can control (ads and coupons),
+              highlighting high-rating/low-visibility opportunities.
+            </li>
+            <li>
+              <span class="font-medium">What-if prediction tool:</span>
+              lets users plug in rating, pricing, coupon, and sponsorship status, then returns a predicted number of total reviews.
+            </li>
+            <li>
+              <span class="font-medium">Model diagnostics:</span>
+              optional log–log view of actual vs. predicted reviews plus R² and MAE, for users who care about model reliability.
+            </li>
+          </ul>
+          <p class="mt-1">
+            This structure moves from overview → quality → behavior → action → reliability, which matches how a manager would
+            naturally reason through decisions.
+          </p>
+        </section>
+  
+        <!-- Design Choices -->
+        <section>
+          <h3 class="text-base font-semibold text-gray-900">Design Choices</h3>
+          <p class="mt-1">
+            <span class="font-medium">Color:</span> I used an Amazon-inspired palette: dark navy backgrounds, orange accents,
+            and neutral grays. Sponsored vs. organic products get distinct categorical colors, while coupon status is
+            revealed in hover tooltips instead of adding another color channel. This keeps the legend simple and avoids
+            over-encoding.
+          </p>
+          <p class="mt-1">
+            <span class="font-medium">Layout &amp; hierarchy:</span>
+            The dashboard stays in a single column: KPIs → distribution → relationship → what-if → diagnostics.
+            Section headers and short explanatory captions under each chart guide the viewer’s attention and make the
+            “intended reading path” explicit.
+          </p>
+          <p class="mt-1">
+            <span class="font-medium">Clutter reduction:</span>
+            I limited the main visuals to two analytical charts plus one what-if tool, with diagnostics tucked into an expander.
+            Rich details (product title, total reviews, discount, coupon label) live in Plotly hover tooltips, so the
+            default view stays clean.
+          </p>
+          <p class="mt-1">
+            <span class="font-medium">Perception &amp; accessibility:</span>
+            I use position for quantitative variables (rating, purchases), color for categorical placement (sponsored vs. organic),
+            and consistent rating scales from 0–5. A dark theme with light text improves contrast, and the plots use a
+            dark template so axis labels and annotations are readable against the background.
+          </p>
+        </section>
+  
+        <!-- Reflection -->
+        <section>
+          <h3 class="text-base font-semibold text-gray-900">Reflection</h3>
+          <p class="mt-1">
+            <span class="font-medium">What worked well:</span>
+            grounding every visual in a concrete decision (protect top performers, promote hidden gems, sanity-check promo ideas)
+            and tying the aesthetics to Amazon’s brand made the dashboard feel closer to a real internal tool than a class demo.
+          </p>
+          <p class="mt-1">
+            <span class="font-medium">What was challenging:</span>
+            the hardest part was balancing interactivity and focus. It was tempting to add more filters and charts
+            (like time-series views), but that would have diluted the main story, so I kept the scope tight.
+          </p>
+          <p class="mt-1">
+            <span class="font-medium">Future improvements:</span>
+            with more time, I would add time-based trends around promo changes, segment products by lifecycle
+            (new launches vs. long-tail items), and expose simple scenario presets in the prediction tool
+            (for example, “new launch with intro coupon” vs. “mature product without promo”).
+          </p>
+        </section>
+  
+        <!-- Access -->
+        <section>
+          <h3 class="text-base font-semibold text-gray-900">Access</h3>
+          <p class="mt-1">
+            Live dashboard, code, and write-up are linked above so this project can function as a
+            portfolio-ready example of both analysis and design.
+          </p>
+        </section>
+      </div>
+    </details>
+  </div>
+  
